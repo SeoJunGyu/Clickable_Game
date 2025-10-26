@@ -9,6 +9,8 @@ using Firebase.Auth;
 public class LoginUI : MonoBehaviour
 {
     public GameObject loginPanel;
+    public GameObject profilePanel;
+    public GameObject createProfilePanel;
 
     public TMP_InputField emailInput;
     public TMP_InputField passwordInput;
@@ -19,7 +21,6 @@ public class LoginUI : MonoBehaviour
     public Button profileButton;
 
     public TextMeshProUGUI errorText;
-    public TextMeshProUGUI profileText;
 
     private async Task Start()
     {
@@ -30,11 +31,7 @@ public class LoginUI : MonoBehaviour
         loginButton.onClick.AddListener(() => OnLoginClicked().Forget());
         signupButton.onClick.AddListener(() => OnSignupClicked().Forget());
         anonymousButton.onClick.AddListener(() => OnAnonymousClicked().Forget());
-        profileButton.onClick.AddListener(() =>
-        {
-            AuthManager.Instance.SignOut();
-            UpdateUI().Forget();
-        });
+        profileButton.onClick.AddListener(() => OnProfileButtonClicked().Forget());
 
         SetButtonsInteractable(true);
 
@@ -54,12 +51,11 @@ public class LoginUI : MonoBehaviour
 
         if (isLoggedIn)
         {
-            string userId = AuthManager.Instance.UserId;
-            profileText.text = userId;
+            profileButton.gameObject.SetActive(true);
         }
         else
         {
-            profileText.text = string.Empty;
+            profileButton.gameObject.SetActive(false);
         }
 
         errorText.text = string.Empty;
@@ -139,5 +135,17 @@ public class LoginUI : MonoBehaviour
         loginButton.interactable = interactable;
         signupButton.interactable = interactable;
         anonymousButton.interactable = interactable;
+    }
+
+    private async UniTaskVoid OnProfileButtonClicked()
+    {
+        if (await ProfileManager.Instance.ProfileExistAsync())
+        {
+            profilePanel.SetActive(true);
+        }
+        else
+        {
+            createProfilePanel.SetActive(true);
+        }
     }
 }

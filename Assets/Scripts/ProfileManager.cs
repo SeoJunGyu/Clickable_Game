@@ -60,7 +60,7 @@ public class ProfileManager : MonoBehaviour
 
             cachedProfile = profile;
 
-            Debug.Log($"[Profile] 프로필 성공 {nickname}");
+            Debug.Log($"[Profile] 프로필 저장 성공 {nickname}");
             return (true, null);
         }
         catch (System.Exception ex)
@@ -70,7 +70,7 @@ public class ProfileManager : MonoBehaviour
         }
     }
 
-    public async UniTask<(UserProfile profile, string error)> LoadProfileAsync(string nickname)
+    public async UniTask<(UserProfile profile, string error)> LoadProfileAsync()
     {
         if (!AuthManager.Instance.IsLoggedIn)
         {
@@ -81,7 +81,7 @@ public class ProfileManager : MonoBehaviour
 
         try
         {
-            Debug.Log($"[Profile] 프로필 로드 시도 {nickname}");
+            Debug.Log($"[Profile] 프로필 로드 시도");
 
             DataSnapshot snapshot = await usersRef.Child(userId).GetValueAsync().AsUniTask(); //json 포맷으로 읽어오기
             if (!snapshot.Exists)
@@ -92,7 +92,7 @@ public class ProfileManager : MonoBehaviour
             string json = snapshot.GetRawJsonValue();
             cachedProfile = UserProfile.FromJson(json); //json 데이터를 원래대로 변환
 
-            Debug.Log($"[Profile] 프로필 성공 {nickname}");
+            Debug.Log($"[Profile] 프로필 로드 성공");
             return (cachedProfile, null);
         }
         catch (System.Exception ex)
