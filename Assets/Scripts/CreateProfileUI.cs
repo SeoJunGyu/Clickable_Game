@@ -1,4 +1,4 @@
-using Cysharp.Threading.Tasks;
+ï»¿using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -32,7 +32,9 @@ public class CreateProfileUI : MonoBehaviour
 
             if (success)
             {
-                Debug.Log("ÇÁ·ÎÇÊ »ı¼º ¼º°ø!");
+                Debug.Log("í”„ë¡œí•„ ìƒì„± ì„±ê³µ!");
+
+                await UniTask.Delay(1000);
 
                 profilePanel.SetActive(true);
                 gameObject.SetActive(false);

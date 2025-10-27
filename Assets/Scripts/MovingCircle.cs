@@ -1,4 +1,4 @@
-using TMPro;
+ï»¿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Cysharp.Threading.Tasks;
@@ -21,6 +21,18 @@ public class MovingCircle : MonoBehaviour
     public GameObject startUI;
     public Button startButton;
 
+    public GameObject recordUI;
+    public Button recordButton;
+
+    public GameObject leaderboardUI;
+    public Button leaderboardButton;
+
+    public GameObject endrecordUI;
+    public Button endrecordButton;
+
+    public GameObject endleaderboardUI;
+    public Button endleaderboardButton;
+
     public GameObject endUI;
     public Button endButton;
     public TextMeshProUGUI finalScoreText;
@@ -41,8 +53,28 @@ public class MovingCircle : MonoBehaviour
             UpdateMove().Forget();
             timer = 10;
             currentScore = 0;
-            scoreText.text = "Á¡¼ö : " + currentScore.ToString();
-            timerText.text = "½Ã°£ : " + timer.ToString();
+            scoreText.text = "ì ìˆ˜ : " + currentScore.ToString();
+            timerText.text = "ì‹œê°„ : " + timer.ToString();
+        });
+
+        recordButton.onClick.AddListener(() =>
+        {
+            recordUI.SetActive(true);
+        });
+
+        leaderboardButton.onClick.AddListener(() =>
+        {
+            leaderboardUI.SetActive(true);
+        });
+
+        endrecordButton.onClick.AddListener(() =>
+        {
+            endrecordUI.SetActive(true);
+        });
+
+        endleaderboardButton.onClick.AddListener(() =>
+        {
+            endleaderboardUI.SetActive(true);
         });
     }
 
@@ -71,7 +103,7 @@ public class MovingCircle : MonoBehaviour
     {
         if (timer <= 0) return;
         currentScore++;
-        scoreText.text = "Á¡¼ö : " + currentScore.ToString();
+        scoreText.text = "ì ìˆ˜ : " + currentScore.ToString();
     }
 
     private async UniTask UpdateMove()
@@ -84,13 +116,15 @@ public class MovingCircle : MonoBehaviour
             MoveCircle();
             await UniTask.Delay(1000);
             timer--;
-            timerText.text = "½Ã°£ : " + timer.ToString();
+            timerText.text = "ì‹œê°„ : " + timer.ToString();
             if (timer <= 0)
             {
                 cancellationTokenSource.Cancel();
-                timerText.text = "½Ã°£ Á¾·á!";
-                finalScoreText.text = "Á¡¼ö : " + currentScore.ToString();
+                timerText.text = "ì‹œê°„ ì¢…ë£Œ!";
+                finalScoreText.text = "ì ìˆ˜ : " + currentScore.ToString();
                 endUI.SetActive(true);
+
+                await ScoreManager.Instance.SaveScoreAsync(currentScore);
             }
         }
     }

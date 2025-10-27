@@ -5,6 +5,7 @@ using Cysharp.Threading.Tasks;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks.CompilerServices;
 using Firebase.Auth;
+using Cysharp.Threading.Tasks.Triggers;
 
 public class LoginUI : MonoBehaviour
 {
@@ -21,19 +22,22 @@ public class LoginUI : MonoBehaviour
     public Button profileButton;
 
     public TextMeshProUGUI errorText;
+    public TextMeshProUGUI profileText;
 
-    private async Task Start()
+    private async UniTaskVoid Start()
     {
         SetButtonsInteractable(false);
 
         await UniTask.WaitUntil(() => AuthManager.Instance != null && AuthManager.Instance.IsInitialized);
 
+        SetButtonsInteractable(true);
+
+        profileButton.gameObject.SetActive(false);
+
         loginButton.onClick.AddListener(() => OnLoginClicked().Forget());
         signupButton.onClick.AddListener(() => OnSignupClicked().Forget());
         anonymousButton.onClick.AddListener(() => OnAnonymousClicked().Forget());
         profileButton.onClick.AddListener(() => OnProfileButtonClicked().Forget());
-
-        SetButtonsInteractable(true);
 
         UpdateUI().Forget();
     }
@@ -51,7 +55,19 @@ public class LoginUI : MonoBehaviour
 
         if (isLoggedIn)
         {
-            profileButton.gameObject.SetActive(true);
+            bool isProfileExist = await ProfileManager.Instance.ProfileExistAsync();
+            if (isProfileExist)
+            {
+                var result = await ProfileManager.Instance.LoadProfileAsync();
+                profileText.text = result.profile.nickname;
+            }
+            else
+            {
+                string userId = AuthManager.Instance.UserId;
+                profileText.text = userId;
+            }
+
+            //gameObject.SetActive(false);
         }
         else
         {
@@ -59,6 +75,7 @@ public class LoginUI : MonoBehaviour
         }
 
         errorText.text = string.Empty;
+        profileButton.gameObject.SetActive(true);
     }
 
     public async UniTask OnLoginClicked()
@@ -139,13 +156,6 @@ public class LoginUI : MonoBehaviour
 
     private async UniTaskVoid OnProfileButtonClicked()
     {
-        if (await ProfileManager.Instance.ProfileExistAsync())
-        {
-            profilePanel.SetActive(true);
-        }
-        else
-        {
-            createProfilePanel.SetActive(true);
-        }
+        profilePanel.SetActive(true);
     }
 }

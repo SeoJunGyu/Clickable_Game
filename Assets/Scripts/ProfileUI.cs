@@ -1,4 +1,4 @@
-using Cysharp.Threading.Tasks;
+ï»¿using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,8 +8,10 @@ public class ProfileUI : MonoBehaviour
     public Button changeBtn;
     public Button signOutBtn;
     public Button exitBtn;
+    public Button profileButton;
 
     public GameObject ProfilePanel;
+    public GameObject CreatePanel;
     public GameObject ChangeProfilePanel;
     public GameObject LogInPanel;
 
@@ -17,7 +19,7 @@ public class ProfileUI : MonoBehaviour
 
     private void Start()
     {
-        changeBtn.onClick.AddListener(() => OnChangeProfileClicked());
+        changeBtn.onClick.AddListener(() => OnChangeProfileClicked().Forget());
         signOutBtn.onClick.AddListener(() => OnSignOutClicked());
         exitBtn.onClick.AddListener(() => OnExitClicked());
     }
@@ -34,10 +36,18 @@ public class ProfileUI : MonoBehaviour
         exitBtn.onClick.RemoveAllListeners();
     }
 
-    public void OnChangeProfileClicked()
+    public async UniTaskVoid OnChangeProfileClicked()
     {
-        ProfilePanel.SetActive(false);
-        ChangeProfilePanel.SetActive(true);
+        if (await ProfileManager.Instance.ProfileExistAsync())
+        {
+            ProfilePanel.SetActive(false);
+            ChangeProfilePanel.SetActive(true);
+        }
+        else
+        {
+            ProfilePanel.SetActive(false);
+            CreatePanel.SetActive(true);
+        }
     }
 
     public void OnSignOutClicked()
@@ -45,6 +55,7 @@ public class ProfileUI : MonoBehaviour
         AuthManager.Instance.SignOut();
         LogInPanel.SetActive(true);
         ProfilePanel.SetActive(false);
+        profileButton.gameObject.SetActive(false);
     }
 
     public void OnExitClicked()
@@ -62,7 +73,7 @@ public class ProfileUI : MonoBehaviour
         }
         else
         {
-            Debug.LogError($"ÇÁ·ÎÇÊ ·Îµå ½ÇÆÐ: {error}");
+            nicknameText.text = "(ë¯¸ì„¤ì •)";
         }
     }
 }
