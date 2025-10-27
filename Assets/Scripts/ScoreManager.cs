@@ -144,6 +144,9 @@ public class ScoreManager : MonoBehaviour
             cachedBestScore = newBestScore;
 
             Debug.Log($"[Score] 최고 기록 갱신: {newBestScore}");
+
+            string userName = ProfileManager.Instance.CachedProfile?.nickname ?? "Guest";
+            await LeaderBoardManager.Instance.UpdateLeaderBoardAsync(newBestScore, userName);
         }
         catch(System.Exception ex)
         {

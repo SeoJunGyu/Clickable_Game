@@ -4,7 +4,7 @@ using UnityEngine;
 public class LeaderBoardData
 {
     public int score;
-    public string nickName;
+    public string userName;
 
     public LeaderBoardData()
     {
@@ -14,7 +14,7 @@ public class LeaderBoardData
     public LeaderBoardData(int score, string nickName)
     {
         this.score = score;
-        this.nickName = nickName;
+        this.userName = nickName;
     }
 
     public string ToJson()
@@ -22,8 +22,8 @@ public class LeaderBoardData
         return JsonUtility.ToJson(this);
     }
 
-    public static ScoreData FromJson(string data)
+    public static LeaderBoardData FromJson(string data)
     {
-        return JsonUtility.FromJson<ScoreData>(data);
+        return JsonUtility.FromJson<LeaderBoardData>(data);
     }
 }
