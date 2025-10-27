@@ -3741,7 +3741,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &540977334
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3816,12 +3816,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dc5cbcb8a19829459d0a45d1126fc37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 0}
-  StartPanel: {fileID: 0}
+  prefab: {fileID: 8129033627712407536, guid: cfd66bcbee6e42f4b94a93b6b5a27edf, type: 3}
+  StartPanel: {fileID: 1135060059}
   scrollRect: {fileID: 95038723}
   recordText: {fileID: 1559713522}
-  reloadButton: {fileID: 0}
-  closeButton: {fileID: 0}
+  reloadButton: {fileID: 727004219}
+  closeButton: {fileID: 338306643}
 --- !u!1 &559157985
 GameObject:
   m_ObjectHideFlags: 0
@@ -10001,7 +10001,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccaafe31f61afd34b91c90beec2154ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cachedBestScore: 0
 --- !u!1 &1604912554
 GameObject:
   m_ObjectHideFlags: 0
@@ -10542,7 +10541,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1686793013
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10841,9 +10840,9 @@ RectTransform:
   m_Children:
   - {fileID: 588240907}
   - {fileID: 1135060060}
+  - {fileID: 2112084828}
   - {fileID: 540977334}
   - {fileID: 137099752}
-  - {fileID: 2112084828}
   - {fileID: 1686793013}
   - {fileID: 1495058717}
   - {fileID: 2142654330}
@@ -10891,6 +10890,14 @@ MonoBehaviour:
   timerText: {fileID: 1970138940}
   startUI: {fileID: 1135060059}
   startButton: {fileID: 516288736}
+  recordUI: {fileID: 540977333}
+  recordButton: {fileID: 495797165}
+  leaderboardUI: {fileID: 137099751}
+  leaderboardButton: {fileID: 302961447}
+  endrecordUI: {fileID: 540977333}
+  endrecordButton: {fileID: 948592444}
+  endleaderboardUI: {fileID: 137099751}
+  endleaderboardButton: {fileID: 1268255928}
   endUI: {fileID: 2112084827}
   endButton: {fileID: 559157987}
   finalScoreText: {fileID: 14979325}
